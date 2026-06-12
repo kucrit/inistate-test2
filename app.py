@@ -68,7 +68,7 @@ elif st.session_state.get('page') == "Troubleshooting":
         st.warning("⚠️ Tim Internal belum mengupdate rangkuman laporan. Silakan hubungi tim internal.")
     else:
         question = st.text_input("Jelaskan masalah yang Anda alami:", 
-                               placeholder="Contoh: Printhead sering mampet, tinta tidak keluar...")
+                               placeholder="Contoh: Printhead clogink, tinta tidak keluar...")
         
         if st.button("Kirim ke Asisten AI", type="primary"):
             if question:
@@ -99,7 +99,7 @@ if st.session_state.get('page') == "Internal":
     st.header("🔒 Internal - Analisis Laporan")
     password = st.text_input("Masukkan Password", type="password")
     
-    if password == "admin123":
+    if password == "admin1234":
         st.success("✅ Akses Diterima")
         uploaded_file = st.file_uploader("Upload Excel Inistate", type=["xlsx", "xls"])
         if uploaded_file:
