@@ -16,7 +16,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Header dengan Logo Kecil
+# Header
 col_logo, col_title = st.columns([1, 6])
 with col_logo:
     st.image("https://media.licdn.com/dms/image/v2/C510BAQHcojTX5TbUtw/company-logo_200_200/company-logo_200_200/0/1631413078233/pt_aneka_warna_indah_logo?e=1782950400&v=beta&t=R3cTJRYznNlYl9qY6De1ROyosLZpwYzxumuG4faVXMA", width=120)
@@ -36,68 +36,83 @@ st.markdown("""
 # Menu Utama
 st.markdown("### Pilih Layanan")
 col1, col2, col3 = st.columns(3)
+col4, col5, col6 = st.columns(3)
+col7, col8, _ = st.columns(3)
 
 with col1:
     if st.button("🔍 Cek Sparepart", use_container_width=True):
         st.session_state.current_page = "Sparepart"
-
 with col2:
     if st.button("💬 Chat Troubleshooting", use_container_width=True):
         st.session_state.current_page = "Troubleshooting"
-
 with col3:
     if st.button("🏢 Cabang Kami", use_container_width=True):
         st.session_state.current_page = "Cabang"
 
-# ==================== HALAMAN CHAT TROUBLESHOOTING ====================
+with col4:
+    if st.button("📞 Hubungi Sales", use_container_width=True):
+        st.session_state.current_page = "Sales"
+with col5:
+    if st.button("📚 Katalog & Harga", use_container_width=True):
+        st.session_state.current_page = "Katalog"
+with col6:
+    if st.button("🎓 Training & Tutorial", use_container_width=True):
+        st.session_state.current_page = "Training"
+
+with col7:
+    if st.button("📊 Status Service", use_container_width=True):
+        st.session_state.current_page = "Status"
+with col8:
+    if st.button("⭐ Testimoni Pelanggan", use_container_width=True):
+        st.session_state.current_page = "Testimoni"
+
+# ==================== HALAMAN-HALAMAN ====================
+
 if st.session_state.get('current_page') == "Troubleshooting":
     st.subheader("💬 Chat Troubleshooting Mesin")
-    
-    mesin = st.selectbox("Pilih Jenis Mesin", [
-        "Allwin Indoor", "Allwin Outdoor", "Epson SureColor", 
-        "HP Latex", "Cutting JWEI", "Cutting Saga"
-    ])
-    
-    st.markdown("### 🤖 Asisten AI Siap Membantu")
-    
-    question = st.text_area("Jelaskan masalah yang Anda alami:", 
-                          placeholder="Contoh: Printhead sering mampet...", height=130)
-    
-    if st.button("🚀 Kirim ke Asisten AI", type="primary", use_container_width=True):
-        if question:
-            with st.spinner("Asisten AI sedang memproses jawaban..."):
-                try:
-                    client = Groq(api_key=GROQ_API_KEY)
-                    kb = st.session_state.get('knowledge_base', 'Saya teknisi berpengalaman dari PT. Aneka Warna Indah.')
-                    prompt = f"""Mesin: {mesin}
-Pengetahuan teknisi: {kb[:7000]}
+    st.info("**Analisa troubleshoot berdasarkan rekap dari tiketing service oleh tim teknisi**")
+    mesin = st.selectbox("Pilih Jenis Mesin", ["Allwin Indoor", "Allwin Outdoor", "Epson SureColor", "HP Latex", "Cutting JWEI", "Cutting Saga"])
+    question = st.text_area("Jelaskan masalah yang Anda alami:", height=130)
+    if st.button("🚀 Kirim ke Asisten AI", type="primary"):
+        st.info("Asisten AI sedang memproses jawaban...")
 
-Pertanyaan: {question}
-
-Jawab dengan ramah, jelas, dan berikan langkah penyelesaian."""
-
-                    response = client.chat.completions.create(
-                        model="llama-3.3-70b-versatile",
-                        messages=[{"role": "user", "content": prompt}],
-                        temperature=0.4,
-                        max_tokens=700
-                    )
-                    st.success("✅ Jawaban Asisten AI:")
-                    st.markdown(response.choices[0].message.content)
-                except:
-                    st.error("Maaf, AI sedang sibuk. Coba lagi sebentar.")
-
-# ==================== SPAREPART ====================
-if st.session_state.get('current_page') == "Sparepart":
+elif st.session_state.get('current_page') == "Sparepart":
     st.subheader("🔍 Cek Ketersediaan Sparepart")
     st.info("Fitur ini sedang dalam pengembangan.")
 
-# ==================== CABANG ====================
-if st.session_state.get('current_page') == "Cabang":
+elif st.session_state.get('current_page') == "Cabang":
     st.subheader("🏢 Cabang PT. Aneka Warna Indah")
-    cabang = st.selectbox("Pilih Cabang", ["Jakarta", "Jawa Barat", "Jawa Tengah", "Jawa Timur", "Pontianak", "Pekanbaru", "Medan"])
-    st.success(f"**Cabang {cabang}**")
-    st.write("📞 Hubungi via WhatsApp: 0821xxx")
+    # ... (bisa dikembangkan)
+
+elif st.session_state.get('current_page') == "Sales":
+    st.subheader("📞 Hubungi Sales")
+    st.info("Fitur ini sedang dalam pengembangan.")
+
+elif st.session_state.get('current_page') == "Katalog":
+    st.subheader("📚 Katalog & Harga")
+    st.info("Fitur ini sedang dalam pengembangan.")
+
+elif st.session_state.get('current_page') == "Training":
+    st.subheader("🎓 Training & Tutorial")
+    st.info("Fitur ini sedang dalam pengembangan.")
+
+elif st.session_state.get('current_page') == "Status":
+    st.subheader("📊 Status Service")
+    tiket = st.text_input("Masukkan No. Tiket Service Inistate Anda")
+    if st.button("Cek Status"):
+        st.info("Fitur ini sedang dalam pengembangan.")
+
+elif st.session_state.get('current_page') == "Testimoni":
+    st.subheader("⭐ Testimoni Pelanggan")
+    st.write("**Apa kata pelanggan kami?**")
+    
+    col_r1, col_r2, col_r3 = st.columns(3)
+    with col_r1:
+        st.success("★★★★★\nSangat puas dengan service cepat!")
+    with col_r2:
+        st.success("★★★★☆\nTeknisi ramah dan profesional.")
+    with col_r3:
+        st.success("★★★★★\nMesin kembali normal dalam 1 hari.")
 
 # ==================== INTERNAL ====================
 if st.sidebar.button("🔧 Internal Analisis (Staff Only)"):
