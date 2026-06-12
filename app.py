@@ -11,9 +11,9 @@ st.markdown("""
 <style>
     .main-header {font-size: 2.8rem; background: linear-gradient(90deg, #d32f2f, #1976d2); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; font-weight: bold;}
     .sub-header {font-size: 1.4rem; color: #444; text-align: center; margin-bottom: 30px;}
-    .hero-box {background: linear-gradient(135deg, #f0f7ff, #e3f2fd); padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 8px 25px rgba(0,0,0,0.1);}
-    .stButton>button {height: 3.5em; border-radius: 12px; font-weight: bold;}
-    html {scroll-behavior: smooth;}
+    .hero-box {background: linear-gradient(135deg, #f0f7ff, #e3f2fd); padding: 45px; border-radius: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1);}
+    .robot-text {font-size: 1.25rem; line-height: 1.6;}
+    .stButton>button {height: 3.6em; border-radius: 12px; font-weight: bold;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -30,57 +30,63 @@ st.markdown("---")
 # Hero Section - Robot Teknisi
 st.markdown("""
 <div class="hero-box">
-    <h2>🤖 Halo, saya Robot Teknisi AI</h2>
-    <h3>Saya siap membantu Anda menyelesaikan masalah mesin dengan cepat!</h3>
-    <p style="font-size: 1.2rem; margin-top: 15px;">Tinggal pilih menu di bawah ini</p>
+    <h2>🤖 Halo! Saya Robot Teknisi AI</h2>
+    <p class="robot-text">
+        👋 Selamat datang! Saya siap membantu Anda mengatasi masalah mesin.<br>
+        Tinggal pilih menu di bawah ini, saya akan bantu secepat mungkin.
+    </p>
 </div>
 """, unsafe_allow_html=True)
 
-# Menu Utama
+# Menu Utama dengan Anchor
 st.markdown("### Pilih Layanan")
+
 col1, col2, col3 = st.columns(3)
 col4, col5, col6 = st.columns(3)
 col7, col8, _ = st.columns(3)
 
 with col1:
-    if st.button("🔍 Cek Sparepart", use_container_width=True):
+    if st.button("🔍 Cek Sparepart", use_container_width=True, key="btn_spare"):
         st.session_state.current_page = "Sparepart"
-        st.markdown("<script>window.scrollTo({top: document.getElementById('sparepart').offsetTop - 100, behavior: 'smooth'});</script>", unsafe_allow_html=True)
+        st.markdown('<script>document.getElementById("sparepart").scrollIntoView({behavior: "smooth"});</script>', unsafe_allow_html=True)
 
 with col2:
-    if st.button("💬 Chat Troubleshooting", use_container_width=True):
+    if st.button("💬 Chat Troubleshooting", use_container_width=True, key="btn_chat"):
         st.session_state.current_page = "Troubleshooting"
 
 with col3:
-    if st.button("🏢 Cabang Kami", use_container_width=True):
+    if st.button("🏢 Cabang Kami", use_container_width=True, key="btn_cabang"):
         st.session_state.current_page = "Cabang"
 
 with col4:
-    if st.button("📞 Hubungi Sales", use_container_width=True):
+    if st.button("📞 Hubungi Sales", use_container_width=True, key="btn_sales"):
         st.session_state.current_page = "Sales"
 with col5:
-    if st.button("📚 Katalog & Harga", use_container_width=True):
+    if st.button("📚 Katalog & Harga", use_container_width=True, key="btn_katalog"):
         st.session_state.current_page = "Katalog"
 with col6:
-    if st.button("🎓 Training & Tutorial", use_container_width=True):
+    if st.button("🎓 Training & Tutorial", use_container_width=True, key="btn_training"):
         st.session_state.current_page = "Training"
 
 with col7:
-    if st.button("📊 Status Service", use_container_width=True):
+    if st.button("📊 Status Service", use_container_width=True, key="btn_status"):
         st.session_state.current_page = "Status"
 with col8:
-    if st.button("⭐ Testimoni Pelanggan", use_container_width=True):
+    if st.button("⭐ Testimoni Pelanggan", use_container_width=True, key="btn_testi"):
         st.session_state.current_page = "Testimoni"
 
-# ==================== HALAMAN LAIN ====================
+# ==================== HALAMAN-HALAMAN DENGAN ID ====================
 
 if st.session_state.get('current_page') == "Troubleshooting":
     st.subheader("💬 Chat Troubleshooting Mesin")
     st.info("**Analisa troubleshoot berdasarkan rekap dari tiketing service oleh tim teknisi**")
-    # ... (kode chat AI tetap sama)
+    mesin = st.selectbox("Pilih Jenis Mesin", ["Allwin Indoor", "Allwin Outdoor", "Epson SureColor", "HP Latex", "Cutting JWEI", "Cutting Saga"])
+    question = st.text_area("Jelaskan masalah yang Anda alami:", height=130)
+    if st.button("🚀 Kirim ke Asisten AI", type="primary", use_container_width=True):
+        st.info("Asisten AI sedang memproses jawaban...")
 
 elif st.session_state.get('current_page') == "Sparepart":
-    st.subheader("🔍 Cek Ketersediaan Sparepart")
+    st.subheader("🔍 Cek Ketersediaan Sparepart", anchor="sparepart")
     st.info("Fitur ini sedang dalam pengembangan.")
 
 elif st.session_state.get('current_page') == "Cabang":
